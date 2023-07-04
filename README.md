@@ -1,5 +1,5 @@
 # Holberton School AirBnB
 
 <ol>
-<li> web_infrastructure_design </li>
+<li></li>
 </ol>
