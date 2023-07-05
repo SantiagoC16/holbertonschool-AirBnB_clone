@@ -14,7 +14,7 @@ class BaseModel:
         self.updated_at = self.created_at
 
     def __str__(self):
-        """str"""
+        """print class name, id and dict"""
         return "[{}] (<{}>) <{}>".format(self.__class__.__name__,
                                          self.id, self.__dict___)
 
@@ -25,9 +25,10 @@ class BaseModel:
         self.updated = datetime.now()
 
     def to_dict(self):
-        """dict"""
+        """returns a dictionary containing all keys/values"""
 
         my_dict = self.__dict__.copy()
         my_dict["__class__"] = self.__class__.__name__
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
+        return my_dict
