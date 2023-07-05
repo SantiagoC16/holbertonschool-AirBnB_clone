@@ -11,6 +11,8 @@ class BaseModel:
 
         if kwargs:
             for k, v in kwargs.items():
+                str_create_at = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
+                str_update_at = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
                 if k == "created_at":
                     self.created_at = v
                     v = str_create_at
