@@ -1,24 +1,24 @@
 #!/usr/bin/python3
 """Base model AirBnB"""
 import json
-import os
-import sys
 import uuid
+import datetime
 
 
-class Base:
-    def __init__(self, id, created_at, updated_at):
+class BaseModel:
+    def __init__(self):
         """def init"""
 
-        self.id = id
-        self.created_at = created_at
-        self.updated_at = updated_at
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = 
 
+    def __str__(self):
+        """str"""
+        return "[{}] (<{}>) <{}>".format(BaseModel.__name__, self.id, self.__dict___)
+    
     def save(self):
         """save"""
 
     def to_dict(self):
         """dict"""
-
-    def __str__(self):
-        """str"""
