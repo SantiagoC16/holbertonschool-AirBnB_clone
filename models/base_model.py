@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 class BaseModel:
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """defines all common attributes/methods for other classes"""
 
         self.id = str(uuid.uuid4())
