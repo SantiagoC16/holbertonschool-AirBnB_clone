@@ -9,18 +9,14 @@ class TestBaseModel(unittest.TestCase):
     def setUp(self):
         self.model = BaseModel()
 
-    def test_attributes_existence(self):
+    def test_exist(self):
         self.assertTrue(hasattr(self.model, 'id'))
         self.assertTrue(hasattr(self.model, 'created_at'))
         self.assertTrue(hasattr(self.model, 'updated_at'))
 
-    def test_id_is_string(self):
+    def test_type(self):
         self.assertIsInstance(self.model.id, str)
-
-    def test_created_at_is_datetime(self):
         self.assertIsInstance(self.model.created_at, datetime)
-
-    def test_updated_at_is_datetime(self):
         self.assertIsInstance(self.model.updated_at, datetime)
 
     def test_save_updates_updated_at(self):

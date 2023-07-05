@@ -23,7 +23,7 @@ class BaseModel:
         """updates the public instance attribute updated_at with
         the current datetime"""
 
-        self.updated = datetime.now()
+        self.updated_at = datetime.now()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values"""
