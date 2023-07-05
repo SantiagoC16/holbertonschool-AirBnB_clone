@@ -2,7 +2,7 @@
 """Base model AirBnB"""
 import json
 import uuid
-import datetime
+from datetime import datetime
 
 
 class BaseModel:
@@ -15,8 +15,9 @@ class BaseModel:
 
     def __str__(self):
         """print class name, id and dict"""
-        return "[{}] (<{}>) <{}>".format(self.__class__.__name__,
-                                         self.id, self.__dict___)
+
+        return "[{}] ({}) {}".format(self.__class__.__name__,
+                                     self.id, self.__dict__)
 
     def save(self):
         """updates the public instance attribute updated_at with
