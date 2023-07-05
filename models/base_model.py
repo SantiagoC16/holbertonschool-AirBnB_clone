@@ -9,18 +9,13 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """defines all common attributes/methods for other classes"""
 
+        self.id = str(uuid.uuid4())
         if kwargs:
             for k, v in kwargs.items():
-                str_create_at = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
-                str_update_at = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
-                if k == "created_at":
-                    self.created_at = v
-                    v = str_create_at
-                if k == "updated_at":
-                    self.updated_at = v
-                    v = str_update_at
+                if k == "created_at" or k == "updated_at":
+                    v = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                    setattr(self, k, v)
         else:
-            self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
