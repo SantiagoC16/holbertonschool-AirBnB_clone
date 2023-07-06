@@ -39,11 +39,12 @@ class FileStorage:
                 data = json.load(f)
 
             for key, obj_dict in data.items():
-                class_name, obj_id = key.split('.')
-                obj_cls = eval(class_name)
-                obj = obj_cls(**obj_dict)
-                self.__objects[key] = obj
-        
+                class_name = key.split('.')
+                obj_cls = globals().get(class_name)
+                if obj_cls:
+                    obj = obj_cls(**obj_dict)
+                    self.__objects[key] = obj
+   
         except FileNotFoundError:
             pass
 
