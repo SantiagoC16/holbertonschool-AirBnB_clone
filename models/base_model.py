@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Base model AirBnB"""
-import json
+from models import storage
 import uuid
 from datetime import datetime
 
@@ -19,6 +19,7 @@ class BaseModel:
         else:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
         """print class name, id and dict"""
@@ -31,6 +32,7 @@ class BaseModel:
         the current datetime"""
 
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values"""
