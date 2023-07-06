@@ -3,7 +3,6 @@
 import cmd
 
 
-
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
 
@@ -27,7 +26,8 @@ class HBNBCommand(cmd.Cmd):
         """Help message for EOF command"""
         print("Exit the program")
 
-    #nothing happen with an empty line by default
+    def emptyline(self):
+        pass
 
     
 if __name__ == '__main__':
