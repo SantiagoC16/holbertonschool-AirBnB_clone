@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """AirBnB console file"""
 import cmd
-
+from models.base_model import BaseModel
+from models.__init__ import storage
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
@@ -29,6 +30,19 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         pass
 
-    
+    def do_create(self, input):
+        """Creates a new instance of BaseModel"""
+        
+        args = input.split()
+        if len(args) == 0:
+            print("** class name missing **")
+        else:
+            class_name = args[1]
+            if class_name not in globals():
+                print("** class doesn't exist **")
+            else:
+                instance = globals()[class_name]
+
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
