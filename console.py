@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """AirBnB console file"""
 import cmd
-from models.base_model import BaseModel
 from models.__init__ import storage
+
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
@@ -32,7 +32,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, input):
         """Creates a new instance of BaseModel"""
-        
+        from models.base_model import BaseModel
+
         args = input.split()
         if len(args) == 0:
             print("** class name missing **")
@@ -42,6 +43,21 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             else:
                 instance = globals()[class_name]
+
+    def do_show(self, input):
+        """Prints the string representation of an instance based
+           on the class name"""
+
+    def do_destroy(self, input):
+        """Deletes an instance based on the class name and id"""
+
+    def do_all(self, input):
+        """Prints all string representation of all instances based
+        or not on the class name"""
+
+    def do_update(self, input):
+        """Updates an instance based on the class name and id by adding
+          or updating attribute"""
 
 
 if __name__ == '__main__':
