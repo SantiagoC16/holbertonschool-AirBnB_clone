@@ -50,15 +50,16 @@ class HBNBCommand(cmd.Cmd):
            on the class name"""
 
         args = input.split()
-        if args[0] == "show":
+        if len (args) == 1:
             print("** class name missing **")
-        if len(args) == 2:
+        elif len(args) > 2:
             print("** instance id missing **")
-        instance = getattr(sys.modules[__name__], args[1])()
-        if not instance:
-            print("** class doesn't exist **")
-        else:
-            print("{} {}".format(instance, self.__module__.id))
+
+            instance = getattr(sys.modules[__name__], input)()
+            if not instance:
+                print("{} {}".format(instance, instance.id))
+                print("** class doesn't exist **")
+        
 
     def do_destroy(self, input):
         """Deletes an instance based on the class name and id"""
