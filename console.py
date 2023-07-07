@@ -41,7 +41,7 @@ class HBNBCommand(cmd.Cmd):
             instance = getattr(sys.modules[__name__], input)()
             print(instance.id)
             instance.save()
-        except:
+        except Exception:
             if not input:
                 print("** class name missing **")
             else:
@@ -107,7 +107,23 @@ class HBNBCommand(cmd.Cmd):
         """Updates an instance based on the class name and id by adding
           or updating attribute"""
 
-        d
+        args = input.split()
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in self.classes:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        key = args[0] + "." + args[1]
+        dicti = models.storage.all()
+        if key not in dicti:
+            print("** no instance found **")
+        if len(args) < 3:
+            print("** attribute name missing **")
+        elif len(args) < 4:
+            print("** value missing **")
+        else:
+            setattr(storage.all()[key], args[2], args[3])
 
 
 if __name__ == '__main__':
