@@ -61,7 +61,10 @@ class HBNBCommand(cmd.Cmd):
         else:
             key = args[0] + "." + args[1]
             dicti = models.storage.all()
-            print("{} {}".format(args[0], dicti[key]))
+            if key in dicti:
+                print("{} {}".format(args[0], dicti[key]))
+            else:
+                print("** no instance found **")
 
     def do_destroy(self, input):
         """Deletes an instance based on the class name and id"""
