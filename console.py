@@ -126,7 +126,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) < 4:
             print("** value missing **")
         else:
-            setattr(storage.all()[key], args[2], args[3])
+            setattr(dicti[key], args[2], args[3])
 
 
 if __name__ == '__main__':
