@@ -3,11 +3,13 @@
 import cmd
 from models.__init__ import storage
 from models.base_model import BaseModel
+import models
 import sys
 
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
+    classes = ["BaseModel"]
 
     def do_quit(self, input):
         """Quit the program"""
@@ -50,15 +52,16 @@ class HBNBCommand(cmd.Cmd):
            on the class name"""
 
         args = input.split()
-        if args[0] == "show":
+        if len(args) < 1:
             print("** class name missing **")
-        if len(args) == 2:
+        elif len(args) < 2:
             print("** instance id missing **")
-        instance = getattr(sys.modules[__name__], args[1])()
-        if not instance:
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
         else:
-            print("{} {}".format(instance, self.__module__.id))
+            key = args[0] + "." + args[1]
+            dicti = models.storage.all()
+            print("{} {}".format(args[0], dicti[key]))
 
     def do_destroy(self, input):
         """Deletes an instance based on the class name and id"""
