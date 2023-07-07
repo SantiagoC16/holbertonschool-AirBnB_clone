@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """AirBnB console file"""
 import cmd
@@ -25,7 +24,7 @@ class HBNBCommand(cmd.Cmd):
         print("List of commands")
 
     def help_quit(self):
-        """ Help message for quit command"""
+        """Help message for quit command"""
         print("Quit command to exit the program")
 
     def help_EOF(self):
@@ -63,12 +62,16 @@ class HBNBCommand(cmd.Cmd):
             key = args[0] + "." + args[1]
             dicti = models.storage.all()
             print("{} {}".format(args[0], dicti[key]))
+            if key in dicti:
+                print(dicti[key])
+            else:
+                print("** no instance found **")
 
     def do_destroy(self, input):
         """Deletes an instance based on the class name and id"""
 
     def do_all(self, input):
-        """ Prints all string representation of all instances based
+        """Prints all string representation of all instances based
         or not on the class name"""
 
     def do_update(self, input):
