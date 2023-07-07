@@ -62,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
             key = args[0] + "." + args[1]
             dicti = models.storage.all()
             if key in dicti:
-                print("{} {}".format(args[0], dicti[key]))
+                print(dicti[key])
             else:
                 print("** no instance found **")
 
