@@ -49,6 +49,17 @@ class HBNBCommand(cmd.Cmd):
         """Prints the string representation of an instance based
            on the class name"""
 
+        args = input.split()
+        if args[0] == "show":
+            print("** class name missing **")
+        if len(args) == 2:
+            print("** instance id missing **")
+        instance = getattr(sys.modules[__name__], args[1])()
+        if not instance:
+            print("** class doesn't exist **")
+        else:
+            print("{} {}".format(instance, self.__module__.id))
+
     def do_destroy(self, input):
         """Deletes an instance based on the class name and id"""
 
