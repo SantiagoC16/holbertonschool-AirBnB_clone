@@ -81,6 +81,7 @@ class HBNBCommand(cmd.Cmd):
             dicti = models.storage.all()
             if key in dicti:
                 del dicti[key]
+                storage.save()
             else:
                 print("** no instance found **")
 
@@ -108,6 +109,8 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, input):
         """Updates an instance based on the class name and id by adding
           or updating attribute"""
+
+        d
 
 
 if __name__ == '__main__':
