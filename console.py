@@ -2,6 +2,8 @@
 """AirBnB console file"""
 import cmd
 from models.__init__ import storage
+from models.base_model import BaseModel
+import sys
 
 
 class HBNBCommand(cmd.Cmd):
@@ -32,17 +34,16 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, input):
         """Creates a new instance of BaseModel"""
-        from models.base_model import BaseModel
 
-        args = input.split()
-        if len(args) == 0:
-            print("** class name missing **")
-        else:
-            class_name = args[1]
-            if class_name not in globals():
-                print("** class doesn't exist **")
+        try:
+            instance = getattr(sys.modules[__name__], input)()
+            print(instance.id)
+            instance.save()
+        except:
+            if not input:
+                print("** class name missing **")
             else:
-                instance = globals()[class_name]
+                print("** class doesn't exist **")
 
     def do_show(self, input):
         """Prints the string representation of an instance based
