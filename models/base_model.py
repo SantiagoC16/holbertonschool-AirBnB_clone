@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 """Base model AirBnB"""
-from models import storage
 import uuid
 from datetime import datetime
-
+from models import storage
 
 class BaseModel:
     def __init__(self, *args, **kwargs):
@@ -30,6 +29,8 @@ class BaseModel:
     def save(self):
         """updates the public instance attribute updated_at with
         the current datetime"""
+        
+
 
         self.updated_at = datetime.now()
         storage.save()
