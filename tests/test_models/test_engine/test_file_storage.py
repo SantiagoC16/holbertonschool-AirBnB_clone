@@ -77,7 +77,8 @@ class TestFileStorage(unittest.TestCase):
         }
 
         # Mock the open() function and simulate reading the mock JSON data
-        with patch('builtins.open', mock_open(read_data=json.dumps(json_data))):
+        with patch('builtins.open', mock_open(read_data=json.dumps
+                                              (json_data))):
             self.storage.reload()
 
             # Check if objects were correctly loaded
