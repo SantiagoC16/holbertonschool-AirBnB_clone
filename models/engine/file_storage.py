@@ -2,6 +2,7 @@
 """define FileStorage class"""
 import json
 from models.base_model import BaseModel
+import sys
 
 class FileStorage:
     """serializes instances to a JSON file and
@@ -37,7 +38,7 @@ class FileStorage:
             with open(self.__file_path, "r") as f:
 
                 for key, obj_dict in json.load(f).items():
-                    obj_dict = BaseModel(**obj_dict)
+                    obj_dict = getattr(sys.modules[__name__], key.split(".")[0])(**obj_dict)
                     self.__objects[key] = obj_dict
 
         except FileNotFoundError:
