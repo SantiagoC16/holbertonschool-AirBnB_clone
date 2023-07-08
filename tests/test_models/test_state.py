@@ -12,11 +12,11 @@ class TestUser(unittest.TestCase):
 
     def test_exist(self):
         """test create exist"""
-        self.assertTrue(hasattr(self.city, "name"))
+        self.assertTrue(hasattr(self.state, "name"))
 
     def test_empty(self):
         """test create empty attibute"""
-        self.assertEqual(self.city.name, "")
+        self.assertEqual(self.state.name, "")
 
 if __name__ == '__main__':
     unittest.main()
