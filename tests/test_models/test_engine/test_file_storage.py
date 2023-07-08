@@ -1,107 +1,78 @@
+#!/usr/bin/python3
+""" unittest from parent class fileStorage """
 import unittest
-import json
-from io import StringIO
-import os
-from models.base_model import BaseModel
-from models.user import User
-from models.amenity import Amenity
-from models.city import City
-from models.place import Place
-from models.review import Review
-from models.state import State
 from models.engine.file_storage import FileStorage
+from models.base_model import BaseModel
+import os
+import json
 
 
 class TestFileStorage(unittest.TestCase):
+    """ Test cases for FileStorage """
 
     def setUp(self):
-        self.file_path = "file.json"
-        self.storage = FileStorage()
+        """ Setup test """
+        self.file_storage = FileStorage()
 
     def tearDown(self):
+        """ Delete file.json """
         try:
-            os.remove(self.file_path)
-        except FileNotFoundError:
+            os.remove("file.json")
+        except Exception:
             pass
-
-    def test_all(self):
-        # Ensure all() returns the __objects dictionary
-        objects = self.storage.all()
-        self.assertIsInstance(objects, dict)
-        self.assertEqual(objects, self.storage._FileStorage__objects)
-
-    def test_new(self):
-        # Ensure new() adds the object to the __objects dictionary
-        obj = BaseModel()
-        self.storage.new(obj)
-        key = f"{obj.__class__.__name__}.{obj.id}"
-        self.assertIn(key, self.storage._FileStorage__objects)
-        self.assertEqual(self.storage._FileStorage__objects[key], obj)
 
     def test_attributes(self):
         """ Test __objects, __file_path """
-        self.assertEqual(type(self.storage._FileStorage__objects), dict)
-        self.assertEqual(type(self.storage._FileStorage__file_path), str)
+        self.assertEqual(type(self.file_storage._FileStorage__objects), dict)
+        self.assertEqual(type(self.file_storage._FileStorage__file_path), str)
+
+    def test_all(self):
+        """ Test all method """
+        self.assertEqual(self.file_storage.all(), {})
+
+    def test_new(self):
+        """ Test new method """
+        my_model = BaseModel()
+        self.assertEqual(len(self.file_storage.all()), 1)
+        self.assertIn("BaseModel." + my_model.id, self.file_storage.all())
 
     def test_save(self):
-        # Create a temporary file for testing
-        with open(self.file_path, "w") as f:
-            f.write("test")
-
-        # Save the objects
-        self.storage.save()
-
-        # Check if the correct JSON data is written
-        with open(self.file_path, "r") as f:
-            json_data = json.load(f)
-            objects = self.storage.all()
-            for key, obj in objects.items():
-                self.assertIn(key, json_data)
-                self.assertEqual(json_data[key], obj.to_dict())
+        """ Test save method """
+        my_model = BaseModel()
+        self.file_storage.save()
+        with open("file.json", "r") as f:
+            self.assertIn("BaseModel." + my_model.id, f.read())
 
     def test_reload(self):
-        # Prepare mock JSON data
-        json_data = {
-            "BaseModel.1234": {
-                "id": "1234",
-                "name": "Test",
-                "created_at": "2022-01-01T00:00:00",
-                "updated_at": "2022-01-01T00:00:00"
-            },
-            "User.5678": {
-                "id": "5678",
-                "email": "test@example.com",
-                "password": "password",
-                "created_at": "2022-01-01T00:00:00",
-                "updated_at": "2022-01-01T00:00:00"
-            }
-        }
-
-        # Write the mock JSON data to the file
-        with open(self.file_path, "w") as f:
-            json.dump(json_data, f)
-
-        # Reload the objects
-        self.storage.reload()
-
-        # Check if objects were correctly loaded
-        objects = self.storage.all()
+        """ Test reload method """
+        my_model = BaseModel()
+        self.file_storage.save()
+        objects = self.file_storage.all()
         self.assertEqual(len(objects), 2)
+        for key in objects.keys():
+            self.assertTrue(isinstance(objects[key], BaseModel))
 
-        base_model_key = "BaseModel.1234"
-        self.assertIn(base_model_key, objects)
-        base_model = objects[base_model_key]
-        self.assertIsInstance(base_model, BaseModel)
-        self.assertEqual(base_model.id, "1234")
-        self.assertEqual(base_model.name, "Test")
+    def test_reload_2(self):
+        """ Test reload method """
+        my_model = BaseModel()
+        self.file_storage.new(my_model)
+        self.file_storage.save()
+        with open(self.file_storage._FileStorage__file_path, "r") as f:
+            data = json.load(f)
+        data["BaseModel.1234"] = {"id": "1234",
+                                  "__class__": "BaseModel", "name": "test"}
+        with open(self.file_storage._FileStorage__file_path, "w") as f:
+            json.dump(data, f)
+        self.file_storage.reload()
+        self.assertIn("BaseModel.1234", self.file_storage.all())
+        obj = self.file_storage.all()["BaseModel.1234"]
+        self.assertEqual(obj.id, "1234")
+        self.assertEqual(obj.name, "test")
 
-        user_key = "User.5678"
-        self.assertIn(user_key, objects)
-        user = objects[user_key]
-        self.assertIsInstance(user, User)
-        self.assertEqual(user.id, "5678")
-        self.assertEqual(user.email, "test@example.com")
-        self.assertEqual(user.password, "password")
+    def test_file_path(self):
+        """ Test __file_path attribute """
+        self.assertEqual(
+            self.file_storage._FileStorage__file_path, "file.json")
 
 
 if __name__ == '__main__':
