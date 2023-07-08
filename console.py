@@ -133,7 +133,7 @@ class HBNBCommand(cmd.Cmd):
         dicti = models.storage.all()
         for k, v in dicti.items():
             if key == k:
-                setattr(v, args[2], args[3])
+                v.__dict__[args[2]] = eval(args[3])
                 v.save()
 
 
