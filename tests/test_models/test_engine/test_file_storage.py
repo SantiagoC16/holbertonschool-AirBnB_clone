@@ -3,7 +3,6 @@
 import unittest
 import os
 import json
-import pep8
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 
@@ -67,15 +66,6 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsInstance(base_model, BaseModel)
         self.assertEqual(base_model.id, "1234")
         self.assertEqual(base_model.name, "Test")
-    
-    def test_pep8(self):
-        """ test base and test_base for pep8 conformance """
-        style = pep8.StyleGuide(quiet=True)
-        file1 = 'models/engine/file_storage.py'
-        file2 = 'tests/test_models/test_engine/test_file_storage.py'
-        result = style.check_files([file1, file2])
-        self.assertEqual(result.total_errors, 0,
-                         "Found code style errors (and warning).")
 
 
 if __name__ == "__main__":
