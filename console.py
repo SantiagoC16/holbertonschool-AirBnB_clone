@@ -113,20 +113,28 @@ class HBNBCommand(cmd.Cmd):
         args = input.split()
         if not args:
             print("** class name missing **")
+            return
         elif args[0] not in self.classes:
             print("** class doesn't exist **")
+            return
         elif len(args) < 2:
             print("** instance id missing **")
+            return
         key = args[0] + "." + args[1]
         dicti = models.storage.all()
         if key not in dicti:
             print("** no instance found **")
+            return
         if len(args) < 3:
             print("** attribute name missing **")
+            return
         elif len(args) < 4:
             print("** value missing **")
-        else:
-            setattr(dicti[key], args[2], args[3])
+            return
+        for k, v in dicti.items():
+            if key == k:
+                v.__dict__[args[2]] = eval(args[3])
+                v.save
 
 
 if __name__ == '__main__':
