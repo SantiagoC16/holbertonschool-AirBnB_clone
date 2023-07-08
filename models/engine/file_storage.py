@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """define FileStorage class"""
 import json
-
+from models.base_model import BaseModel
 
 class FileStorage:
     """serializes instances to a JSON file and
@@ -22,19 +22,17 @@ class FileStorage:
 
     def save(self):
         """serializes __objects to the JSON file"""
-        from models.base_model import BaseModel
 
         json_dict = {}
 
         for k, obj in self.__objects.items():
             json_dict[k] = obj.to_dict()
 
-            with open(self.__file_path, "w") as f:
-                json.dump(json_dict, f)
+        with open(self.__file_path, "w") as f:
+            json.dump(json_dict, f)
 
     def reload(self):
         """deserializes the JSON file to __objects"""
-        from models.base_model import BaseModel
         try:
             with open(self.__file_path, "r") as f:
 
