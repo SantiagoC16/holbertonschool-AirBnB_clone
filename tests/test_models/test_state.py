@@ -18,5 +18,6 @@ class TestUser(unittest.TestCase):
         """test create empty attibute"""
         self.assertEqual(self.state.name, "")
 
+
 if __name__ == '__main__':
     unittest.main()

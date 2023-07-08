@@ -5,10 +5,11 @@ from datetime import datetime
 from models.base_model import BaseModel
 from models.place import Place
 
+
 class TestUser(unittest.TestCase):
     def setUp(self):
         self.place = Place()
-    
+
     def test_exist(self):
         """test create exist"""
         self.assertTrue(hasattr(self.place, "city_id"))

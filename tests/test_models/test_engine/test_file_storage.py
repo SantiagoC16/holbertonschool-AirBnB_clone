@@ -14,7 +14,6 @@ class TestFileStorage(unittest.TestCase):
         """test setup"""
         self.path = "file.json"
         self.storage = FileStorage()
-        
 
     def tearDown(self):
         """test teardown"""
@@ -46,7 +45,8 @@ class TestFileStorage(unittest.TestCase):
         self.assertIn(key, text)
 
     def test_reload(self):
-        """ test reload"""
+        """test reload"""
+
         json_data = {
             "BaseModel.1234": {
                 "id": "1234",
