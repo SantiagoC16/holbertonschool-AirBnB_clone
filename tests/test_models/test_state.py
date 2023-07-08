@@ -3,12 +3,12 @@
 import unittest
 from datetime import datetime
 from models.base_model import BaseModel
-from models.city import City
+from models.state import State
 
 
 class TestUser(unittest.TestCase):
     def setUp(self):
-        self.city = City()
+        self.state = State()
 
     def test_exist(self):
         """test create exist"""
