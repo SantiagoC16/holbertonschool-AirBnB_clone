@@ -8,7 +8,7 @@ import sys
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
-    classes = ["BaseModel"]
+    classes = ["BaseModel", "User"]
 
     def do_quit(self, input):
         """Quit the program"""
