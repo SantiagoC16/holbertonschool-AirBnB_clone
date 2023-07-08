@@ -120,9 +120,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) < 2:
             print("** instance id missing **")
             return
-        key = args[0] + "." + args[1]
-        dicti = models.storage.all()
-        if key not in dicti:
+        elif args[0] + "." + args[1] not in models.storage.all():
             print("** no instance found **")
             return
         if len(args) < 3:
@@ -131,6 +129,8 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) < 4:
             print("** value missing **")
             return
+        key = args[0] + "." + args[1]
+        dicti = models.storage.all()
         for k, v in dicti.items():
             if key == k:
                 setattr(v, args[2], args[3])
