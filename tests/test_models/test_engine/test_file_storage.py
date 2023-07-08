@@ -1,7 +1,7 @@
 import unittest
-from unittest.mock import patch, mock_open
-from io import StringIO
 import json
+from io import StringIO
+import os
 from models.base_model import BaseModel
 from models.user import User
 from models.amenity import Amenity
@@ -10,7 +10,6 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.engine.file_storage import FileStorage
-import os
 
 
 class TestFileStorage(unittest.TestCase):
@@ -41,18 +40,20 @@ class TestFileStorage(unittest.TestCase):
 
     def test_attributes(self):
         """ Test __objects, __file_path """
-        self.assertEqual(type(self.file_storage._FileStorage__objects), dict)
-        self.assertEqual(type(self.file_storage._FileStorage__file_path), str)
+        self.assertEqual(type(self.storage._FileStorage__objects), dict)
+        self.assertEqual(type(self.storage._FileStorage__file_path), str)
 
     def test_save(self):
-        # Mock the open() function and check if json.dump() is called
-        with patch('builtins.open', mock_open()) as mock_file:
-            self.storage.save()
-            mock_file.assert_called_once_with(self.file_path, "w")
-            mock_file().write.assert_called_once()
+        # Create a temporary file for testing
+        with open(self.file_path, "w") as f:
+            f.write("test")
 
-            # Check if the correct JSON data is written
-            json_data = json.loads(mock_file().write.call_args[0][0])
+        # Save the objects
+        self.storage.save()
+
+        # Check if the correct JSON data is written
+        with open(self.file_path, "r") as f:
+            json_data = json.load(f)
             objects = self.storage.all()
             for key, obj in objects.items():
                 self.assertIn(key, json_data)
@@ -76,29 +77,31 @@ class TestFileStorage(unittest.TestCase):
             }
         }
 
-        # Mock the open() function and simulate reading the mock JSON data
-        with patch('builtins.open', mock_open(read_data=json.dumps
-                                              (json_data))):
-            self.storage.reload()
+        # Write the mock JSON data to the file
+        with open(self.file_path, "w") as f:
+            json.dump(json_data, f)
 
-            # Check if objects were correctly loaded
-            objects = self.storage.all()
-            self.assertEqual(len(objects), 2)
+        # Reload the objects
+        self.storage.reload()
 
-            base_model_key = "BaseModel.1234"
-            self.assertIn(base_model_key, objects)
-            base_model = objects[base_model_key]
-            self.assertIsInstance(base_model, BaseModel)
-            self.assertEqual(base_model.id, "1234")
-            self.assertEqual(base_model.name, "Test")
+        # Check if objects were correctly loaded
+        objects = self.storage.all()
+        self.assertEqual(len(objects), 2)
 
-            user_key = "User.5678"
-            self.assertIn(user_key, objects)
-            user = objects[user_key]
-            self.assertIsInstance(user, User)
-            self.assertEqual(user.id, "5678")
-            self.assertEqual(user.email, "test@example.com")
-            self.assertEqual(user.password, "password")
+        base_model_key = "BaseModel.1234"
+        self.assertIn(base_model_key, objects)
+        base_model = objects[base_model_key]
+        self.assertIsInstance(base_model, BaseModel)
+        self.assertEqual(base_model.id, "1234")
+        self.assertEqual(base_model.name, "Test")
+
+        user_key = "User.5678"
+        self.assertIn(user_key, objects)
+        user = objects[user_key]
+        self.assertIsInstance(user, User)
+        self.assertEqual(user.id, "5678")
+        self.assertEqual(user.email, "test@example.com")
+        self.assertEqual(user.password, "password")
 
 
 if __name__ == '__main__':
