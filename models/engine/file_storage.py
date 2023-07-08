@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """define FileStorage class"""
-import json
+import unittest
+from unittest.mock import patch, mock_open
+from io import StringIO
 from models.base_model import BaseModel
 from models.user import User
 from models.amenity import Amenity
@@ -8,46 +10,51 @@ from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
-import sys
+from models.engine.file_storage import FileStorage
 
 
-class FileStorage:
-    """serializes instances to a JSON file and
-    deserializes JSON file to instances
-    """
-    __file_path = "file.json"
-    __objects = {}
+class FileStorageTest(unittest.TestCase):
+    def setUp(self):
+        self.file_storage = FileStorage()
 
-    def all(self):
-        """returns the dictionary __objects"""
-        return self.__objects
+    def tearDown(self):
+        self.file_storage = None
 
-    def new(self, obj):
-        """sets in __objects the obj with
-        key <obj class name>.id"""
-        key = f"{obj.__class__.__name__}.{obj.id}"
-        self.__objects[key] = obj
+    def test_all(self):
+        obj = BaseModel()
+        self.file_storage.new(obj)
+        objects = self.file_storage.all()
+        self.assertEqual(objects, {'BaseModel.' + obj.id: obj})
 
-    def save(self):
-        """serializes __objects to the JSON file"""
+    def test_new(self):
+        obj = BaseModel()
+        self.file_storage.new(obj)
+        objects = self.file_storage.all()
+        self.assertEqual(objects, {'BaseModel.' + obj.id: obj})
 
-        json_dict = {}
+    def test_save(self):
+        obj = BaseModel()
+        self.file_storage.new(obj)
 
-        for k, obj in self.__objects.items():
-            json_dict[k] = obj.to_dict()
+        with patch('models.engine.file_storage.open', mock_open()) as mock_file:
+            self.file_storage.save()
+            mock_file.assert_called_once_with("file.json", "w")
+            mock_file().write.assert_called_once()
 
-        with open(self.__file_path, "w") as f:
-            json.dump(json_dict, f)
+    def test_reload(self):
+        obj = BaseModel()
+        self.file_storage.new(obj)
 
-    def reload(self):
-        """deserializes the JSON file to __objects"""
-        try:
-            with open(self.__file_path, "r") as f:
+        json_data = {
+            'BaseModel.' + obj.id: obj.to_dict()
+        }
+        json_string = StringIO(json.dumps(json_data))
 
-                for key, obj_dict in json.load(f).items():
-                    obj_dict = getattr(sys.modules[__name__],
-                                       key.split(".")[0])(**obj_dict)
-                    self.__objects[key] = obj_dict
+        with patch('models.engine.file_storage.open', mock_open(read_data=json_string.getvalue())):
+            self.file_storage.reload()
+            objects = self.file_storage.all()
+            self.assertEqual(objects, {'BaseModel.' + obj.id: obj})
 
-        except FileNotFoundError:
-            pass
+
+if __name__ == '__main__':
+    unittest.main()
