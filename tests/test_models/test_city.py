@@ -12,17 +12,13 @@ class TestUser(unittest.TestCase):
 
     def test_exist(self):
         """test create exist"""
-        self.assertTrue(hasattr(self.city, "email"))
-        self.assertTrue(hasattr(self.city, "password"))
-        self.assertTrue(hasattr(self.city, "first_name"))
-        self.assertTrue(hasattr(self.city, "last_name"))
+        self.assertTrue(hasattr(self.city, "state.id"))
+        self.assertTrue(hasattr(self.city, "name"))
 
     def test_empty(self):
         """test create empty attibute"""
-        self.assertEqual(self.city.email, "")
-        self.assertEqual(self.city.password, "")
-        self.assertEqual(self.city.first_name, "")
-        self.assertEqual(self.city.last_name, "")
+        self.assertEqual(self.city.state_id, "")
+        self.assertEqual(self.city.name, "")
 
 if __name__ == '__main__':
     unittest.main()
