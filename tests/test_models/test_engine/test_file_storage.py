@@ -1,81 +1,82 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
-"""File for testing the FileStorage class."""
-
+"""unittest fileStorage"""
+import unittest
 import os
 import json
-import unittest
-from models.base_model import BaseModel
+import pep8
 from models.engine.file_storage import FileStorage
-
-
-def del_old_files():
-    try:
-        os.remove("recover_objs.json")
-    except FileNotFoundError:
-        pass
-
-
-# Delete files and current objects.
-del_old_files()
-
-# Global variables
-file_storage = FileStorage()
-new_bm = BaseModel()
+from models.base_model import BaseModel
 
 
 class TestFileStorage(unittest.TestCase):
-    """Test the FileStorage class."""
+    """ Test cases for FileStorage """
+
+    def setUp(self):
+        """test setup"""
+        self.path = "file.json"
+        self.storage = FileStorage()
+        
+
+    def tearDown(self):
+        """test teardown"""
+        try:
+            os.remove(self.file_path)
+        except FileNotFoundError:
+            pass
 
     def test_all(self):
-        """Test all() method."""
-        with open("recover_objs.json", "w", encoding="UTF-8 ") as json_file:
-            json.dump({}, json_file)
-        file_storage.reload()
-        self.assertEqual(file_storage.all(), {})
-        file_storage.new(new_bm)
-        self.assertEqual(file_storage.all(), {
-            f"{new_bm.__class__.__name__}.{new_bm.id}": new_bm
-        })
-
-    def test_file_path(self):
-        """Test __file_path attribue."""
-        self.assertTrue(type(file_storage._FileStorage__file_path) is str)
-
-    def test_objects(self):
-        """Test __objects attribute."""
-        self.assertTrue(type(file_storage._FileStorage__objects) is dict)
+        """ test all method """
+        self.assertAlmostEqual(self.storage.all(), {})
+        self.assertIsInstance(self.storage.all(), dict)
 
     def test_new(self):
-        """Test creating a new model obj with new method."""
-        file_storage.new(new_bm)
-        self.assertEqual(file_storage.all(), {
-            f"{new_bm.__class__.__name__}.{new_bm.id}": new_bm
-        })
-
-    def testReload(self):
-        """Test reloading json file."""
-        file_storage.save()
-        with open("recover_objs.json", "w", encoding="UTF-8") as json_file:
-            json.dump({}, json_file)
-        file_storage.reload()
-        self.assertEqual(file_storage.all(), {})
-        file_storage.new(new_bm)
-        file_storage.save()
-        file_storage.reload()
-        self.assertTrue(len(file_storage.all()) == 1)
+        """ test new method """
+        obj = BaseModel()
+        key = "{}.{}".format(type(obj).__name__, obj.id)
+        self.assertAlmostEqual(len(self.storage.all()), 1)
+        self.assertAlmostEqual(key in self.storage.all(), True)
 
     def test_save(self):
-        """Test save method to save the objects on json file."""
-        update_time = new_bm.updated_at
-        file_storage.save()
-        new_bm.save()
-        BaseModel.save(self)
-        self.assertTrue(update_time < new_bm.updated_at)
-        with open("recover_objs.json", encoding="UTF-8"):
-            pass
-        del_old_files()
+        """ test save method """
+        obj = BaseModel()
+        self.storage.save()
+        self.assertAlmostEqual(os.path.exists(self.path), True)
+        with open(self.path, mode="r") as file:
+            text = json.load(file)
+        key = "{}.{}".format(type(obj).__name__, obj.id)
+        self.assertIn(key, text)
+
+    def test_reload(self):
+        """ test reload"""
+        json_data = {
+            "BaseModel.1234": {
+                "id": "1234",
+                "name": "Test",
+                "created_at": "2022-01-01T00:00:00",
+                "updated_at": "2022-01-01T00:00:00"
+            }
+        }
+        with open(self.file_path, "w") as f:
+            json.dump(json_data, f)
+        self.storage.reload()
+        objects = self.storage.all()
+        self.assertEqual(len(objects), 1)
+        base_model_key = "BaseModel.1234"
+        self.assertIn(base_model_key, objects)
+        base_model = objects[base_model_key]
+        self.assertIsInstance(base_model, BaseModel)
+        self.assertEqual(base_model.id, "1234")
+        self.assertEqual(base_model.name, "Test")
+    
+    def test_pep8(self):
+        """ test base and test_base for pep8 conformance """
+        style = pep8.StyleGuide(quiet=True)
+        file1 = 'models/engine/file_storage.py'
+        file2 = 'tests/test_models/test_engine/test_file_storage.py'
+        result = style.check_files([file1, file2])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warning).")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
