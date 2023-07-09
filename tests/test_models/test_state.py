@@ -6,7 +6,8 @@ from models.base_model import BaseModel
 from models.state import State
 
 
-class TestUser(unittest.TestCase):
+class TestState(unittest.TestCase):
+    """test State class"""
     def setUp(self):
         self.state = State()
 

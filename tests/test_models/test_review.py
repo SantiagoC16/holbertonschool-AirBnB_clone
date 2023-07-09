@@ -6,7 +6,9 @@ from models.base_model import BaseModel
 from models.review import Review
 
 
-class TestUser(unittest.TestCase):
+class TestReview(unittest.TestCase):
+    """test Review class"""
+
     def setUp(self):
         self.review = Review()
 

@@ -6,7 +6,9 @@ from models.base_model import BaseModel
 from models.place import Place
 
 
-class TestUser(unittest.TestCase):
+class TestPlace(unittest.TestCase):
+    """test Place class"""
+
     def setUp(self):
         self.place = Place()
 
