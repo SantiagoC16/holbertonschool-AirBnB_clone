@@ -13,6 +13,7 @@ import sys
 
 
 class HBNBCommand(cmd.Cmd):
+    """hbnb console class"""
     prompt = "(hbnb)"
     classes = ["BaseModel", "User", "State", "City", "Amenity", "Place",
                "Review"]
