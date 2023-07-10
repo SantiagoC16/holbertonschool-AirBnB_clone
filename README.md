@@ -48,5 +48,57 @@ But also in non-interactive mode:
 
 <img width="649" alt="2023-07-09 14_46_40-image 2" src="https://github.com/SantiagoC16/holbertonschool-AirBnB_clone/assets/113919575/7c39c7e8-3b07-4e31-8d86-59431e09252c">
 
+### Testing:
 **All tests should also pass in non-interactive mode: $ echo "python3 -m unittest discover tests" | bash**
 
+#### Create:
+* --> `create`: <br />
+This create a BaseModel instance, save it to a JSON file and prints the id of the instance <br />
+**Example:**
+```
+(hbnb)create BaseModel
+101c942a-82f4-4d99-adb8-cd397c76e06e
+```
+#### Show:
+* --> `show`: <br/>
+This prints the string representation of an instance based on the class name and id <br/>
+**Example:**
+```
+(hbnb)show BaseModel 101c942a-82f4-4d99-adb8-cd397c76e06e
+[BaseModel] (101c942a-82f4-4d99-adb8-cd397c76e06e) {'id': '101c942a-82f4-4d99-adb8-cd397c76e06e', 'created_at': datetime.datetime(2023, 7, 9, 16, 54, 14, 688838), 'updated_at': datetime.datetime(2023, 7, 9, 16, 54, 14, 688881)}
+```
+* --> `all`: <br />
+This prints all string representation of all instances based or not on the class name <br />
+**Example (no arguments):**
+```
+(hbnb) create City
+7653c610-2cc4-4cd2-adf7-92bf04e12b0b
+(hbnb) all
+["[User] (934bc49e-9e65-435f-aade-00894fa8d692) {'id': '934bc49e-9e65-435f-aade-00894fa8d692', 'created_at': datetime.datetime(2023, 7, 9, 16, 53, 1, 35493), 'updated_at': datetime.datetime(2023, 7, 9, 16, 53, 1, 35580)}", "[BaseModel] (101c942a-82f4-4d99-adb8-cd397c76e06e) {'id': '101c942a-82f4-4d99-adb8-cd397c76e06e', 'created_at': datetime.datetime(2023, 7, 9, 16, 54, 14, 688838), 'updated_at': datetime.datetime(2023, 7, 9, 16, 54, 14, 688881)}"]
+
+(hbnb)all BaseModel
+["[BaseModel] (101c942a-82f4-4d99-adb8-cd397c76e06e) {'id': '101c942a-82f4-4d99-adb8-cd397c76e06e', 'created_at': datetime.datetime(2023, 7, 9, 16, 54, 14, 688838), 'updated_at': datetime.datetime(2023, 7, 9, 16, 54, 14, 688881)}"]
+```
+
+* --> `destroy`: <br />
+This deletes an instance based on the class name and id <br />
+**Example:**
+```
+(hbnb) all
+["[User] (934bc49e-9e65-435f-aade-00894fa8d692) {'id': '934bc49e-9e65-435f-aade-00894fa8d692', 'created_at': datetime.datetime(2023, 7, 9, 16, 53, 1, 35493), 'updated_at': datetime.datetime(2023, 7, 9, 16, 53, 1, 35580)}", "[BaseModel] (101c942a-82f4-4d99-adb8-cd397c76e06e) {'id': '101c942a-82f4-4d99-adb8-cd397c76e06e', 'created_at': datetime.datetime(2023, 7, 9, 16, 54, 14, 688838), 'updated_at': datetime.datetime(2023, 7, 9, 16, 54, 14, 688881)}"]
+(hbnb)destroy BaseModel 101c942a-82f4-4d99-adb8-cd397c76e06e
+(hbnb)all
+["[User] (934bc49e-9e65-435f-aade-00894fa8d692) {'id': '934bc49e-9e65-435f-aade-00894fa8d692', 'created_at': datetime.datetime(2023, 7, 9, 16, 53, 1, 35493), 'updated_at': datetime.datetime(2023, 7, 9, 16, 53, 1, 35580)}"]
+(hbnb)
+```
+
+* --> `update`: <br />
+This updates an instance based on the class name and id by adding or updating attribute <br />
+**Example:**
+```
+(hbnb)all
+["[User] (934bc49e-9e65-435f-aade-00894fa8d692) {'id': '934bc49e-9e65-435f-aade-00894fa8d692', 'created_at': datetime.datetime(2023, 7, 9, 16, 53, 1, 35493), 'updated_at': datetime.datetime(2023, 7, 9, 16, 53, 1, 35580)}"]
+(hbnb)update User 934bc49e-9e65-435f-aade-00894fa8d692 phone 999
+(hbnb)all
+["[User] (934bc49e-9e65-435f-aade-00894fa8d692) {'id': '934bc49e-9e65-435f-aade-00894fa8d692', 'created_at': datetime.datetime(2023, 7, 9, 16, 53, 1, 35493), 'updated_at': datetime.datetime(2023, 7, 9, 17, 5, 35, 351185), 'phone': 999}"]
+```
