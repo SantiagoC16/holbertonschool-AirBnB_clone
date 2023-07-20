@@ -32,7 +32,6 @@ button:hover {
 }
 .container .filters .locations div h3{
     font-weight: 600;
-    margin-bottom: 0;
 }
 
 .container .filters .locations div h4{
@@ -47,7 +46,6 @@ button:hover {
 }
 .container .filters .amenities div h3{
     font-weight: 600;
-    margin-bottom: 0;
 }
 
 .container .filters .amenities div h4{
