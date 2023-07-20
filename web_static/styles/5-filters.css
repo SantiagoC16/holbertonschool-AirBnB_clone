@@ -28,27 +28,19 @@ button:hover {
     height: 100%;
     width: 25%;
     border-right: 1px solid #DDDDDD;
-    margin-left:30px;
-}
-.container .filters .locations div h3{
-    font-weight: 600;
-}
-
-.container .filters .locations div h4{
-    font-weight: 400;
-    font-size: 14px;
 }
 
 .container .filters .amenities{
     height: 100%;
     width: 25%;
-    margin-left:30px;
 }
-.container .filters .amenities div h3{
+.container .filters div h3{
     font-weight: 600;
+    margin: 15px 0 0 30px;
 }
 
-.container .filters .amenities div h4{
+.container .filters div h4{
     font-weight: 400;
     font-size: 14px;
+    margin: 5px 0 0 30px;
 }
