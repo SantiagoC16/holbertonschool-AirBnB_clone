@@ -61,6 +61,9 @@ button:hover {
     padding-top: 5%;
 }
 
+.container .filters .amenities li {
+    margin-left: 30px;
+}
 .container .filters h2 {
     font-size: 16px;
     margin-left: 30px;
