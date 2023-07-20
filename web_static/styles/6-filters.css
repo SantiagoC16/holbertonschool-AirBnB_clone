@@ -51,7 +51,7 @@ button:hover {
     border-radius: 4px;
     width: 250px;
     height: auto;
-    opacity: 0;
+    visibility: hidden;
     margin-top: 18px;
     padding-bottom: 5%;
     padding-left: 0%;
@@ -75,5 +75,5 @@ button:hover {
 
 .container .filters .amenities:hover .popover, 
 .container .filters .locations:hover .popover {
-    opacity: 1;
+    visibility: visible;
 }
