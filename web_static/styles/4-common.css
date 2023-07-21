@@ -1,11 +1,17 @@
 @import "3-footer.css";
 @import "3-header.css";
-@import "4-filters.css";
+@import "6-filters.css";
+@import "8-places.css";
 
 body {
     margin: 0;
     padding: 0;
     color: #484848;
     font-size: 14px;
-    font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
-  }
+    font-family: "Circular", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+}
+  
+.container {
+    width: 1000px;
+    margin: 30px auto;
+}
