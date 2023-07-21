@@ -46,19 +46,16 @@ button:hover {
 }
 
 .container .filters .popover {
+    position: absolute;
     background-color: #FAFAFA;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
     width: 250px;
-    height: auto;
+    height: fit-content;
     visibility: hidden;
     margin-top: 18px;
-    padding-bottom: 5%;
+    padding: 1%;
     padding-left: 0%;
-}
-
-.container .filters .amenities .popover {
-    padding-top: 5%;
 }
 
 .container .filters .amenities li {
@@ -76,4 +73,5 @@ button:hover {
 .container .filters .amenities:hover .popover, 
 .container .filters .locations:hover .popover {
     visibility: visible;
+    z-index: 10;
 }
